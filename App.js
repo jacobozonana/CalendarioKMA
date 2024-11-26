@@ -30,7 +30,11 @@ export default function App() {
   let [misheyakir, setMisheyakir] = useState(null)
   let [neitzHaChama, setNeitzHaChama] = useState(null)
   let [minchaKetana, setMinchaKetana] = useState(null)
+  let [minchaKetanaMGA, setMinchaKetanaMGA] = useState(null)
   let [plagHaMincha, setPlagHaMincha] = useState(null)
+  let [minchaGedolaMGA, setMinchaGedolaMGA] = useState(null)
+  let [sofZmanShmaMGA19Point8, setSofZmanShmaMGA19Point8] = useState(null)
+  let [seaLevelSunrise, setSeaLevelSunrise] = useState(null)
 
   // Set the locale to Spanish
   LocaleConfig.locales['es'] = {
@@ -97,14 +101,14 @@ export default function App() {
 
     if (location && selectedDate) {
 
-      // let latitude = 19.4335 // del kolel
-      // let longitude = -99.194 // del kolel
+      let latitude = 19.4335 // del kolel
+      let longitude = -99.194 // del kolel
 
-      let latitude = location.coords.latitude
-      let longitude = location.coords.longitude
+      // let latitude = location.coords.latitude
+      // let longitude = location.coords.longitude
 
-      // const tzid = 'America/Mexico_City';
-      let tzid = tzLookup(latitude, longitude, function (err, tz) { return tz })
+      const tzid = 'America/Mexico_City';
+      // let tzid = tzLookup(latitude, longitude, function (err, tz) { return tz })
 
       // const day = new Date();
       const day = new Date(selectedDate.year, selectedDate.month - 1, selectedDate.day);
@@ -134,6 +138,7 @@ export default function App() {
       setSunset(Zmanim.formatISOWithTimeZone(tzid, zmanim.sunset()))
       setShkiah(Zmanim.formatISOWithTimeZone(tzid, zmanim.shkiah()))
       setSofZmanShmaMGA16Point1(Zmanim.formatISOWithTimeZone(tzid, zmanim.sofZmanShmaMGA16Point1()))
+      setSofZmanShmaMGA19Point8(Zmanim.formatISOWithTimeZone(tzid, zmanim.sofZmanShmaMGA19Point8()))
       setSofZmanShma(Zmanim.formatISOWithTimeZone(tzid, zmanim.sofZmanShma()))
       setSofZmanTfillaMGA16Point1(Zmanim.formatISOWithTimeZone(tzid, zmanim.sofZmanTfillaMGA16Point1()))
       setSofZmanTfilla(Zmanim.formatISOWithTimeZone(tzid, zmanim.sofZmanTfilla()))
@@ -147,15 +152,17 @@ export default function App() {
       setNeitzHaChama(Zmanim.formatISOWithTimeZone(tzid, zmanim.neitzHaChama()))
       setMinchaKetana(Zmanim.formatISOWithTimeZone(tzid, zmanim.minchaKetana()))
       setPlagHaMincha(Zmanim.formatISOWithTimeZone(tzid, zmanim.plagHaMincha()))
-
+      setMinchaGedolaMGA(Zmanim.formatISOWithTimeZone(tzid, zmanim.minchaGedolaMGA()))
+      setMinchaKetanaMGA(Zmanim.formatISOWithTimeZone(tzid, zmanim.minchaKetanaMGA()))
+      setSeaLevelSunrise(Zmanim.formatISOWithTimeZone(tzid, zmanim.seaLevelSunrise()))
 
 
       //---------------------
 
-      const obtenerSalidaSol = (fecha, latitude, longitude) => {
-        const times = SunCalc.getTimes(fecha, latitude, longitude, .90);
-        return times.sunrise; // Hora de salida del sol
-      };
+      // const obtenerSalidaSol = (fecha, latitude, longitude) => {
+      //   const times = SunCalc.getTimes(fecha, latitude, longitude, .90);
+      //   return times.sunrise; // Hora de salida del sol
+      // };
 
       // const data = fechas.map(fecha => {
       //   const salidaSol = obtenerSalidaSol(fecha, latitude, longitude);
@@ -166,7 +173,7 @@ export default function App() {
       // });
 
 
-      console.log(obtenerSalidaSol(day, latitude, longitude).toLocaleTimeString(), 'Salida del sol....');
+      // console.log(obtenerSalidaSol(day, latitude, longitude).toLocaleTimeString(), 'Salida del sol....');
 
       //---------------------
 
@@ -199,27 +206,31 @@ export default function App() {
         />
         {/* <Text style={styles.paragraph}>{text}</Text> */}
         <Text style={styles.paragraph}>Date: {selectedDate == null ? null : selectedDate.dateString}</Text>
-        <Text style={styles.paragraph}>Timezone: {!location ? null : tzLookup(location.coords.latitude, location.coords.longitude)}</Text>
-        <Text style={styles.paragraph}>Latitude: {!location ? null : location.coords.latitude}</Text>
-        <Text style={styles.paragraph}>Longitude: {!location ? null : location.coords.longitude}</Text>
-        <Text style={styles.paragraph}>Altitude: {!location ? null : location.coords.altitude}</Text>
+        {/* <Text style={styles.paragraph}>Timezone: {!location ? null : tzLookup(location.coords.latitude, location.coords.longitude)}</Text> */}
+        {/* <Text style={styles.paragraph}>Latitude: {!location ? null : location.coords.latitude}</Text>
+        <Text style={styles.paragraph}>Longitude: {!location ? null : location.coords.longitude}</Text> */}
+        {/* <Text style={styles.paragraph}>Altitude: {!location ? null : location.coords.altitude}</Text> */}
+        <Text style={styles.paragraph}>Alot HaShachar: {!alotHaShachar ? null : alotHaShachar.split('T')[1].split('-')[0]}</Text>
+        <Text style={styles.paragraph}>Misheyakir: {!misheyakir ? null : misheyakir.split('T')[1].split('-')[0]}</Text>
         <Text style={styles.paragraph}>Sunrise: {!sunrise ? null : sunrise.split('T')[1].split('-')[0]}</Text>
+        <Text style={styles.paragraph}>Sea Level Sunrise: {!seaLevelSunrise ? null : seaLevelSunrise.split('T')[1].split('-')[0]}</Text>
+        <Text style={styles.paragraph}>Neitz HaChama: {!neitzHaChama ? null : neitzHaChama.split('T')[1].split('-')[0]}</Text>
         <Text style={styles.paragraph}>Sunset: {!sunset ? null : sunset.split('T')[1].split('-')[0]}</Text>
         <Text style={styles.paragraph}>Shkiah: {!shkiah ? null : shkiah.split('T')[1].split('-')[0]}</Text>
         <Text style={styles.paragraph}>Sof Zman Shma MGA 16.1: {!sofZmanShmaMGA16Point1 ? null : sofZmanShmaMGA16Point1.split('T')[1].split('-')[0]}</Text>
         <Text style={styles.paragraph}>Sof Zman Shma GRA: {!sofZmanShma ? null : sofZmanShma.split('T')[1].split('-')[0]}</Text>
         <Text style={styles.paragraph}>Sof Zman Tefila MGA 16.1: {!sofZmanTfillaMGA16Point1 ? null : sofZmanTfillaMGA16Point1.split('T')[1].split('-')[0]}</Text>
+        <Text style={styles.paragraph}>Sof Zman Tefila GRA 19.8: {!sofZmanShmaMGA19Point8 ? null : sofZmanShmaMGA19Point8.split('T')[1].split('-')[0]}</Text>
         <Text style={styles.paragraph}>Sof Zman Tefila GRA: {!sofZmanTfilla ? null : sofZmanTfilla.split('T')[1].split('-')[0]}</Text>
         <Text style={styles.paragraph}>Chatzot: {!chatzot ? null : chatzot.split('T')[1].split('-')[0]}</Text>
         <Text style={styles.paragraph}>Minja Gedola: {!minchaGedola ? null : minchaGedola.split('T')[1].split('-')[0]}</Text>
+        <Text style={styles.paragraph}>Minja Gedola MGA: {!minchaGedolaMGA ? null : minchaGedolaMGA.split('T')[1].split('-')[0]}</Text>
+        <Text style={styles.paragraph}>Minja Ketana: {!minchaKetana ? null : minchaKetana.split('T')[1].split('-')[0]}</Text>
+        <Text style={styles.paragraph}>Minja Ketana MGA: {!minchaKetanaMGA ? null : minchaKetanaMGA.split('T')[1].split('-')[0]}</Text>
+        <Text style={styles.paragraph}>Plag HaMinja: {!plagHaMincha ? null : plagHaMincha.split('T')[1].split('-')[0]}</Text>
         <Text style={styles.paragraph}>Bein HaShmashot: {!beinHaShmashos ? null : beinHaShmashos.split('T')[1].split('-')[0]}</Text>
         <Text style={styles.paragraph}>Tzet 6.8: {!tzeit6_8 ? null : tzeit6_8.split('T')[1].split('-')[0]}</Text>
         <Text style={styles.paragraph}>Tzet 7.083: {!tzeit7_083 ? null : tzeit7_083.split('T')[1].split('-')[0]}</Text>
-        <Text style={styles.paragraph}>Alot HaShachar: {!alotHaShachar ? null : alotHaShachar.split('T')[1].split('-')[0]}</Text>
-        <Text style={styles.paragraph}>Misheyakir: {!misheyakir ? null : misheyakir.split('T')[1].split('-')[0]}</Text>
-        <Text style={styles.paragraph}>Neitz HaChama: {!neitzHaChama ? null : neitzHaChama.split('T')[1].split('-')[0]}</Text>
-        <Text style={styles.paragraph}>Minja Ketana: {!minchaKetana ? null : minchaKetana.split('T')[1].split('-')[0]}</Text>
-        <Text style={styles.paragraph}>Plag HaMinja: {!plagHaMincha ? null : plagHaMincha.split('T')[1].split('-')[0]}</Text>
 
       </ScrollView>
       <StatusBar style="auto" />
