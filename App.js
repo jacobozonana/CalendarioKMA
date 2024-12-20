@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import * as Location from 'expo-location';
+import * as ExpoLocation from 'expo-location';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, useWindowDimensions, ScrollView } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
@@ -51,14 +51,14 @@ export default function App() {
 
     (async () => {
 
-      let { status } = await Location.requestForegroundPermissionsAsync();
+      let { status } = await ExpoLocation.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Highest,
+      let location = await ExpoLocation.getCurrentPositionAsync({
+        accuracy: ExpoLocation.Accuracy.Highest,
 
       });
 
@@ -86,7 +86,7 @@ export default function App() {
     const hebDate = new HDate(new Date(date.year, date.month - 1, date.day))
 
     return (
-      <TouchableOpacity onPress={() => { console.log(hebDate); setSelectedDate(date) }} style={styles.dayContainer}>
+      <TouchableOpacity onPress={() => { setSelectedDate(date) }} style={styles.dayContainer}>
         <Text style={styles.dayText}>{date.day}</Text>
         <Text style={styles.dateText}>{meseHeb[hebDate.getMonth()]} {hebDate.getDate()}</Text>
         {/* <View style={styles.legendContainer}>
@@ -198,7 +198,7 @@ export default function App() {
           renderHeader={(date) => (
             <View style={styles.headerContainer}>
               {/* que salgan los 2  meses en hebreo que estan en la vista */}
-              {/* <Text style={styles.headerText}>{meseHeb[new HDate(new Date(date)).getMonth()]}</Text> */}
+              <Text style={styles.headerText}>{meseHeb[new HDate(new Date(date)).getMonth()]}</Text>
               <Text style={styles.headerText}>{mesesEsp[new Date(date).getMonth()]}</Text>
               <Text style={styles.subHeaderText}>{new Date(date).getFullYear()}</Text>
             </View>
